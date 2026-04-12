@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Federated Learning 5G Traffic Forecasting</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+
+    <!-- CDNs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <h2>SUPERCOM: 5G Traffic Forecasting</h2>
+        </div>
+        <div class="nav-links">
+            <span class="badge">Federated Model: Active</span>
+            <span class="badge secondary">Data: Barcelona LTE</span>
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+        <!-- Sidebar KPI Metrics -->
+        <aside class="sidebar">
+            <div class="kpi-card">
+                <h3>Total Intercepts</h3>
+                <p id="total-samples" class="metric">Loading...</p>
+            </div>
+            <div class="kpi-card">
+                <h3>Aggregated MAE (Downlink)</h3>
+                <p class="metric">0.034</p>
+                <small>Mean Absolute Error</small>
+            </div>
+            <div class="kpi-card">
+                <h3>Participating Clients</h3>
+                <p class="metric">3</p>
+                <small>Federated Base Stations</small>
+            </div>
+            
+            <div class="controls">
+                <h3>Select Base Station</h3>
+                <button class="station-btn active" data-station="ElBorn">El Born</button>
+                <button class="station-btn" data-station="LesCorts">Les Corts</button>
+                <button class="station-btn" data-station="PobleSec">Poble Sec</button>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <div class="content-area">
+            
+            <!-- Map Section -->
+            <div class="map-card card">
+                <div class="card-header">
+                    <h3>Base Station Geographic Distribution</h3>
+                </div>
+                <div id="map" class="map-container"></div>
+            </div>
+
+            <!-- Playback Controls -->
+            <div class="playback-controls card">
+                <button id="playBtn" class="play-btn">▶ Start Simulation</button>
+                <div class="slider-container">
+                    <input type="range" id="timeScrubber" min="0" max="100" value="100" title="Timeline Scrubber">
+                    <div class="time-labels">
+                        <span id="startTimeLabel">Historical</span>
+                        <span id="currentTimeLabel">Current T+0</span>
+                    </div>
+                </div>
+                <select id="speedSelect" class="speed-select">
+                    <option value="1">1x Speed</option>
+                    <option value="3">3x Speed</option>
+                    <option value="10" selected>10x Speed</option>
+                    <option value="30">Max Speed</option>
+                </select>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 id="dl-chart-title">Downlink Traffic (bps)</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="downlinkChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 id="ul-chart-title">Uplink Traffic (bps)</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="uplinkChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 id="rnti-chart-title">Active Clients (RNTI Count)</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="rntiChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 id="rb-down-chart-title">Downlink Resource Blocks (RB)</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="rbDownChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 id="rb-up-chart-title">Uplink Resource Blocks (RB)</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="rbUpChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>5G Base Station Forecasting Simulation</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

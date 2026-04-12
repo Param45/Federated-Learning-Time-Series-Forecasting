@@ -72,3 +72,28 @@ Because of strict model dependency chains (loading pre-trained weights for deplo
    Renders out the final human-readable prediction logs (e.g., `ElBorn_predictions.csv`).
 
 *Note: For the smoothest experience, completely restart your Jupyter Kernel between sequential steps if memory fragmentation occurs.*
+
+---
+
+## 🌍 Live Telemetry Dashboard (UI)
+
+Because Jupyter outputs can be difficult to demonstrate to non-technical stakeholders, this repository includes a fully interactive, dark-mode `Vanilla JavaScript` Web Dashboard to visualize the Federated predictions. It features native Geo-mapping via Leaflet, automated 5G-simulation timelines, and dynamically syncs `True vs Predicted` traffic data.
+
+### Running the Dashboard
+
+1. **Synchronize the Datasets**  
+   Because ML sliding windows construct lag sequences (offsetting array boundaries), you must perfectly align the raw `dataset/` testing files with the `notebooks/` predicted CSV outputs. Simply run the sync script:
+   ```powershell
+   python prepare_data.py
+   ```
+   *This generates clean `_dashboard.csv` files inside the `dashboard/data/` folder.*
+
+2. **Boot the Web Server**  
+   Navigate into the dashboard folder and spin up a lightweight Python HTTP server to bypass browser CORS policies:
+   ```powershell
+   cd dashboard
+   python -m http.server 8000
+   ```
+
+3. **View the Simulation**  
+   Open **http://localhost:8000** in your web browser. You can click "Start Simulation" to watch the data sequence autonomously, or manually drag the Timeline Scrubber to investigate specific historical spikes in Cellular Traffic or Resource Block allocations!

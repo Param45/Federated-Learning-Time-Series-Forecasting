@@ -1,0 +1,10 @@
+--extra-index-url https://download.pytorch.org/whl/cu118
+carbontracker
+h5py
+matplotlib
+numpy
+pandas
+scipy
+scikit-learn
+snntorch
+torch
